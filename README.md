@@ -1,144 +1,84 @@
-# \# 🎬 AWS IMDb Data Pipeline with AI + Airflow + Tableau + CI/CD
+# 🎬 AWS IMDb Data Pipeline with AI, Airflow, Tableau, and CI/CD
 
-# 
+This project is a hands-on, end-to-end Data Engineering pipeline using AWS (S3, Glue, Athena), orchestrated with Docker-based Airflow, and enhanced with an AI genre recommender system. Data is visualized in Tableau or Streamlit. CI/CD is automated with GitHub Actions. All AWS services are kept under $20/month.
 
-# This is a production-style \*\*end-to-end Data Engineering project\*\* using AWS services to ingest, transform, and analyze \*\*IMDb movie \& TV data\*\*, with a built-in \*\*AI-based genre recommender\*\* and \*\*CI/CD automation\*\*.  
+---
 
-# Final visualizations are built in \*\*Tableau\*\* or \*\*Streamlit\*\*.
+## 🎯 Project Goals
 
-# 
+- Build a cloud-native data pipeline (AWS S3, Glue, Athena)
+- Orchestrate ETL with Airflow (Docker)
+- Apply AI to recommend movie genres
+- Visualize data using Tableau/Streamlit
+- Automate deployments with CI/CD (GitHub Actions)
 
-# ---
+## 🧱 Tech Stack
 
-# 
+- Python, IMDb Datasets
+- AWS S3 (storage)
+- AWS Glue (ETL, PySpark)
+- AWS Athena (querying)
+- Apache Airflow (Docker)
+- Tableau Public / Streamlit (visualization)
+- GitHub Actions (CI/CD)
+- AI with TF-IDF/Sentence Transformers
 
-# \## 🎯 Project Goals
+## 🤖 AI: Genre Recommender
 
-# 
+Content-based movie recommender using:
+- TF-IDF or Sentence-BERT embeddings
+- Suggests similar movies for a given title
+- Demo in Streamlit or results in Tableau
 
-# \- Build a real-world, cloud-native data pipeline on AWS
+## 🔁 CI/CD
 
-# \- Ingest IMDb datasets and transform using AWS Glue
+Automated with GitHub Actions:
+- Linting and code style checks
+- Deploys Glue scripts, Airflow DAGs
+- Manages secrets securely
 
-# \- Store and query curated data using Athena
+## 📁 Project Structure
 
-# \- Orchestrate ETL pipeline using Apache Airflow (Docker)
+- `dags/` — Airflow DAGs
+- `glue_jobs/` — Glue ETL scripts
+- `airflow/` — Docker Airflow setup
+- `scripts/` — Data ingestion
+- `ai/` — Genre recommender code
+- `docker/` — Streamlit Docker setup
+- `tableau/` — Dashboards
+- `architecture/` — Diagrams
+- `docs/` — SQL and notes
+- `.github/workflows/` — CI/CD workflows
 
-# \- Add an AI-based genre recommendation engine
+## 🗺️ Architecture Diagram
 
-# \- Visualize trends and recommendations using Tableau
+Diagram will be added in `architecture/`.  
+**High-level flow:**  
+IMDb data → S3 → Glue → S3 (processed) → Athena → Tableau/AI → Visualization  
+Orchestration: Airflow | CI/CD: GitHub Actions
 
-# \- Implement GitHub Actions-based CI/CD
+## 📚 IMDb Datasets Used
 
-# 
+- title.basics.tsv.gz
+- title.ratings.tsv.gz
+- title.akas.tsv.gz
+- title.principals.tsv.gz  
+[IMDb Datasets Download](https://datasets.imdbws.com/)
 
-# ---
+## 📊 Outputs
 
-# 
+- Tableau dashboard: trends, genre stats, recommendations
+- Streamlit app: live genre recommendations
 
-# \## 🧱 Tech Stack
+## 💰 AWS Cost Control
 
-# 
+All services are Free Tier or low-cost.
+- S3 < 5GB
+- Glue dev jobs
+- Athena (Parquet format)
+- **Estimated cost: <$20/month**
 
-# | Layer             | Tools                          |
+## 👤 Author
 
-# |-------------------|--------------------------------|
-
-# | \*\*Ingestion\*\*     | Python, IMDb Datasets          |
-
-# | \*\*Storage\*\*       | Amazon S3                      |
-
-# | \*\*ETL/ELT\*\*       | AWS Glue (PySpark)             |
-
-# | \*\*Orchestration\*\* | Apache Airflow (Docker)        |
-
-# | \*\*Querying\*\*      | Amazon Athena                  |
-
-# | \*\*AI/NLP\*\*        | TF-IDF / Sentence Transformers |
-
-# | \*\*BI\*\*            | Tableau Public / Streamlit     |
-
-# | \*\*CI/CD\*\*         | GitHub Actions, AWS CLI        |
-
-# 
-
-# ---
-
-# 
-
-# \## 🤖 AI: Genre Recommender System
-
-# 
-
-# This project includes a content-based \*\*AI recommender system\*\* that suggests similar movies based on plot summaries and metadata.
-
-# 
-
-# \- Techniques: TF-IDF + Cosine Similarity or Sentence-BERT
-
-# \- Output: Top 10 similar movies for a selected title
-
-# \- Interface: Streamlit (local Docker container) or precomputed results in Tableau
-
-# 
-
-# ---
-
-# 
-
-# \## 🔁 CI/CD (GitHub Actions)
-
-# 
-
-# This repo includes automated CI/CD workflows for:
-
-# 
-
-# \- ✅ Linting (Black, Flake8)
-
-# \- ✅ Unit tests for ingestion and AI modules
-
-# \- ✅ Auto-deploy of Glue scripts to S3
-
-# \- ✅ DAG sync to Airflow Docker instance
-
-# \- ✅ Infra-as-code (optional via CDK)
-
-# \- ✅ AWS Secrets secured using GitHub Secrets
-
-# 
-
-# ---
-
-# 
-
-# \## 🗂️ Project Folder Structure
-
-# 
-
-# ```bash
-
-# aws-imdb-data-pipeline/
-
-# ├── dags/                  # Airflow DAGs
-
-# ├── glue\_jobs/             # Glue ETL scripts (PySpark)
-
-# ├── airflow/               # Docker Airflow setup
-
-# ├── scripts/               # IMDb ingestion scripts
-
-# ├── ai/                    # Genre recommender scripts
-
-# ├── docker/                # Streamlit Docker setup
-
-# ├── tableau/               # Dashboard files or screenshots
-
-# ├── architecture/          # Architecture diagram (PNG / .drawio)
-
-# ├── docs/                  # Notes, SQL queries
-
-# └── .github/workflows/     # CI/CD workflow YAMLs
-
-
-
+Anurag Kasula
+anurag.kasula@gmail.com
