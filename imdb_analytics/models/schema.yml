@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: marts_movie_facts_view
+    columns:
+      - name: tconst
+        tests: [not_null]
+      - name: averageRating
+        tests: [not_null]
+
+  - name: marts_top_movies_by_genre
+    tests: []
+
+  - name: marts_episode_season_trends
+    columns:
+      - name: seasonNumber
+        tests: [not_null]

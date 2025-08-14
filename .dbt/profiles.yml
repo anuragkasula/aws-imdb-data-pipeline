@@ -1,0 +1,14 @@
+imdb_athena:
+  target: dev
+  outputs:
+    dev:
+      type: athena
+      region_name: us-east-1
+      work_group: primary
+      database: AwsDataCatalog
+      schema: imdb_processed_db
+      s3_staging_dir: s3://imdb-data-raw-ak/dbt-staging/
+      s3_data_dir:    s3://imdb-data-raw-ak/dbt-tables/
+      s3_data_naming: schema_table_unique
+      threads: 4
+      poll_interval: 5

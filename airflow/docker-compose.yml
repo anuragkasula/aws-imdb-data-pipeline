@@ -1,0 +1,32 @@
+services:
+  airflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      AIRFLOW__WEBSERVER__SECRET_KEY: please_change_me
+      AIRFLOW__CORE__FERNET_KEY: please_change_me
+      AIRFLOW__WEBSERVER__BASE_URL: "http://localhost:8081"
+      AWS_DEFAULT_REGION: us-east-1
+      ATHENA_DB: imdb_processed_db
+      ATHENA_OUTPUT: s3://imdb-data-raw-ak/athena-results/
+      DBT_PROFILES_DIR: /opt/airflow/repo/.dbt
+      GLUE_JOB_NAME: etl-movies-episodes-analytics
+      CRAWLER_NAME: imdb-processed-crawler
+    volumes:
+      - airflow_home:/opt/airflow                 # <-- persist metadata, logs, configs
+      - ./dags:/opt/airflow/dags                  # DAGs overlay the volume
+      - ..:/opt/airflow/repo                      # your whole repo (tests, dbt, scripts)
+      - ${USERPROFILE}\.aws:/home/airflow/.aws:ro"
+    ports:
+      - "8081:8080"
+    command: >
+      bash -lc "
+        airflow db init &&
+        airflow users create --username admin --password admin --firstname a --lastname b --role Admin --email a@b.com || true &&
+        airflow webserver --port 8080 & airflow scheduler
+      "
+
+volumes:
+  airflow_home:   # <-- named volume declaration

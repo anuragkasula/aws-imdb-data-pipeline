@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: imdb
+    database: AwsDataCatalog
+    schema: imdb_processed_db
+    tables:
+      - name: analytics_movie_facts
+      - name: analytics_episode_facts
+      - name: series_season_summary
