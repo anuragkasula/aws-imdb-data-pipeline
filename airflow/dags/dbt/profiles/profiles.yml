@@ -1,0 +1,15 @@
+imdb_snowflake:
+  target: prod
+  outputs:
+    prod:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}"
+      host: hzc10211.us-east-1.snowflakecomputing.com
+      database: IMDB
+      schema: ANALYTICS        # dbt will create IMDB.ANALYTICS if missing
+      threads: 4
+      client_session_keep_alive: false

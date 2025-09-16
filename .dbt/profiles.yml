@@ -12,3 +12,19 @@ imdb_athena:
       s3_data_naming: schema_table_unique
       threads: 4
       poll_interval: 5
+
+imdb_snowflake:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE', 'IMDB') }}"
+      schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'MARTS') }}"
+      client_session_keep_alive: false
+      threads: 4
+      query_tag: "airflow_dbt"

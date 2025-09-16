@@ -14,4 +14,6 @@ RUN pip install --no-cache-dir --upgrade pip && \
         pandas==2.2.2 \
         pyathena==3.9.0 \
         boto3 \
-		kafka-python
+		kafka-python \
+		"apache-airflow-providers-snowflake>=5.4,<6.0" \
+		"snowflake-connector-python>=3.0,<4.0"

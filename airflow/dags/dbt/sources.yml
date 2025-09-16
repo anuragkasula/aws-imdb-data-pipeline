@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: imdb
+    database: IMDB
+    schema: MARTS
+    tables:
+      - name: EPISODE_FACTS
+      - name: MOVIE_FACTS
+      - name: SERIES_SEASON_SUMMARY

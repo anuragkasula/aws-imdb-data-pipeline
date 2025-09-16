@@ -1,0 +1,14 @@
+{{ config(materialized='table', tags=['anl']) }}
+
+SELECT
+  SERIESID                      AS SERIES_KEY,
+  SERIESTITLE,
+  SERIES_DECADE,
+  SEASONNUMBER                  AS SEASON_NUM,
+  EPISODESINSEASON              AS EPISODE_COUNT,
+  AVGSEASONRATING               AS AVG_SEASON_RATING,
+  SEASONSTARTYEAR,
+  SEASONENDYEAR,
+  RUN_DATE_DT                   AS RUN_DATE,
+  LPAD(SEASONNUMBER::STRING, 2, '0') AS SEASON_LABEL
+FROM {{ source('imdb','SERIES_SEASON_SUMMARY') }}

@@ -3,20 +3,30 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    env_file:
+      - .env
     environment:
+      AIRFLOW__CORE__FERNET_KEY: ddrfINOYN11r3Gpb0glKjbvkeJ3jPellNZT33dT5GtA=
       AIRFLOW__CORE__LOAD_EXAMPLES: "False"
       AIRFLOW__WEBSERVER__SECRET_KEY: please_change_me
-      AIRFLOW__CORE__FERNET_KEY: please_change_me
       AIRFLOW__WEBSERVER__BASE_URL: "http://localhost:8081"
+      AIRFLOW_CONN_SNOWFLAKE_CONN: "snowflake://${SNOWFLAKE_USER}:${SNOWFLAKE_PASSWORD}@${SNOWFLAKE_ACCOUNT}/${SNOWFLAKE_DATABASE}/${SNOWFLAKE_SCHEMA}?role=${SNOWFLAKE_ROLE}&warehouse=${SNOWFLAKE_WAREHOUSE}"
       AWS_DEFAULT_REGION: us-east-1
       ATHENA_DB: imdb_processed_db
       ATHENA_OUTPUT: s3://imdb-data-raw-ak/athena-results/
-      DBT_PROFILES_DIR: /opt/airflow/repo/.dbt
+      DBT_PROFILES_DIR: airflow/dags/dbt/profiles
       GLUE_JOB_NAME: etl-movies-episodes-analytics
       CRAWLER_NAME: imdb-processed-crawler
+      S3_RAW_BUCKET: imdb-data-raw-ak
+      RAW_PREFIX: imdb/raw
+      CONTROL_PREFIX: imdb/raw/_remote_state
+      IMDB_FILES: title.akas.tsv.gz,title.basics.tsv.gz,title.crew.tsv.gz,title.episode.tsv.gz,title.principals.tsv.gz,title.ratings.tsv.gz,name.basics.tsv.gz
+      IMDB_BASE_URL: "https://datasets.imdbws.com/"
+      WRITE_LATEST: "true"
     volumes:
       - airflow_home:/opt/airflow                 # <-- persist metadata, logs, configs
       - ./dags:/opt/airflow/dags                  # DAGs overlay the volume
+      - ./repo:/opt/airflow/repo
       - ..:/opt/airflow/repo                      # your whole repo (tests, dbt, scripts)
       - ${USERPROFILE}\.aws:/home/airflow/.aws:ro"
     ports:
@@ -25,8 +35,14 @@ services:
       bash -lc "
         airflow db init &&
         airflow users create --username admin --password admin --firstname a --lastname b --role Admin --email a@b.com || true &&
-        airflow webserver --port 8080 & airflow scheduler
+        airflow webserver --port 8080 &
+        exec airflow scheduler
       "
-
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/health || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 10
 volumes:
   airflow_home:   # <-- named volume declaration

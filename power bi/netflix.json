@@ -1,0 +1,24 @@
+{
+  "name": "Netflix Dark",
+  "foreground": "#E5E5E5",
+  "background": "#0A0A0A",
+  "dataColors": ["#E50914", "#B81D24", "#D9251B", "#8A0E12", "#444444", "#1F1F1F"],
+  "good": "#16a34a",
+  "neutral": "#eab308",
+  "bad": "#ef4444",
+  "visualStyles": {
+    "*": {
+      "*": {
+        "title": [{"visible": true, "fontColor": {"solid": {"color": "#E5E5E5"}}, "textSize": 12}],
+        "background": [{"show": true, "color": {"solid": {"color": "#0F0F0F"}}, "transparency": 15}],
+        "border": [{"show": false, "radius": 8}]
+      }
+    },
+    "slicer": {
+      "*": {
+        "general": [{"outlineColor": {"solid": {"color": "#141414"}}}],
+        "items": [{"color": {"solid": {"color": "#E5E5E5"}}}]
+      }
+    }
+  }
+}
