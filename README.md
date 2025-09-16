@@ -24,23 +24,41 @@ A dark, Netflix‑themed report for **Movies & TV Series** with:
 
 ```mermaid
 flowchart LR
-  subgraph AWS
-    R[IMDb Raw TSVs\nS3: s3://.../raw/] --> G[Glue ETL (PySpark)\nPartitioning + DQ snapshots]
-    G --> P[S3 Processed Parquet\ns3://.../processed/analytics_*]
-    A[Athena checks / GE] -->|quality ok| P
+  %% --- styles (optional) ---
+  classDef svc fill:#111827,color:#ffffff,stroke:#f43f5e,stroke-width:1px;
+  classDef store fill:#0e7490,color:#ffffff,stroke:#0ea5e9,stroke-width:1px;
+  classDef wh fill:#1f2937,color:#ffffff,stroke:#60a5fa,stroke-width:1px;
+  classDef bi fill:#111827,color:#ffffff,stroke:#f59e0b,stroke-width:1px;
+
+  %% --- AWS side ---
+  subgraph AWS["AWS"]
+    AIRFLOW["Airflow DAG (orchestration)"]:::svc
+    GLUE["AWS Glue ETL (PySpark)"]:::svc
+    ATHENA["Athena + Great Expectations (Data Quality)"]:::svc
+    S3RAW["S3 bucket: imdb-data-raw"]:::store
+    S3PROC["S3 bucket: imdb/processed (partitioned by run_date/decade/genre)"]:::store
   end
 
-  subgraph Airflow (Docker)
-    D[DAG: athena_check] --> E[great_expectations (quality)]
-    E --> L[snowflake_load (staged COPY / DML)]
-    L --> B[dbt run]
-    B --> T[dbt test]
+  %% --- Snowflake side ---
+  subgraph SNOWFLAKE["Snowflake"]
+    STAGE["External Stage: @IMDB_S3_STAGE"]:::wh
+    COPYM["COPY INTO MARTS.* (idempotent load)"]:::wh
+    DBT["dbt models → ANALYTICS.* (star schema)"]:::wh
   end
 
-  P -->|External Stage| S[Snowflake @IMDB_S3_STAGE\nFILE_FORMAT = IMDB_PQ_FF]
-  S --> M[MARTS.* (landing) \n movie_facts / episode_facts / series_season_summary]
-  M --> AN[ANALYTICS.* (dbt models)\n *_ANL tables, deduped & typed]
-  AN --> BI[Power BI (Import) \n Publish to Web / Workspace]
+  PBI["Power BI (Import/Direct; Netflix-style dashboards)"]:::bi
+
+  %% --- Flow ---
+  AIRFLOW --> GLUE
+  GLUE --> S3PROC
+  S3RAW --> GLUE
+  AIRFLOW --> ATHENA
+  ATHENA --> AIRFLOW
+  S3PROC --> STAGE
+  AIRFLOW --> COPYM
+  STAGE --> COPYM
+  COPYM --> DBT
+  DBT --> PBI
 ```
 
 **Key design points**
