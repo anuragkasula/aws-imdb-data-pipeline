@@ -1,4 +1,4 @@
-# 🎬 IMDb Data Platform — AWS + Airflow (Docker) + Glue + Snowflake + dbt + Power BI
+# 🎬 IMDb Data Platform
 
 > **Production-grade, end‑to‑end data & analytics project** turning raw IMDb datasets into a Netflix‑styled Power BI experience.  
 > Pipeline: **AWS (S3/Glue/Athena)** → **Airflow** orchestrates → **Snowflake (MARTS → ANALYTICS via dbt)** → **Power BI** (Import).
@@ -221,7 +221,3 @@ CREATE OR REPLACE STAGE IMDB_S3_STAGE
 
 ## 📝 Notes
 - This README replaces/expands an earlier version focused on AWS + Tableau/Streamlit; we now target **Power BI** and **Snowflake** as the BI/warehouse defaults.
-
-```text
-(Replace all placeholders like bucket names, video URL, and account IDs before sharing.)
-```
