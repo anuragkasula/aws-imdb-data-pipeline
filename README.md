@@ -7,7 +7,7 @@
 
 ## 🔗 Demo & Screens
 
-- **Video walkthrough (Power BI)**: _Add your link here_ → `https://youtu.be/<your_video_id>`  
+- **Power BI Report**: [![Open the interactive dashboard](docs/pbi-cover.png)](https://app.fabric.microsoft.com/view?r=eyJrIjoiNzk0M2M4ZDktYzJiNy00NGUwLWFlMjAtYzBjZDc1OWNmNTEwIiwidCI6ImNkZjI0MzE5LWQ3NDAtNDNkYS05MTU5LTkyOGQxNzVkMjFlZSJ9)  
 - **Screenshots**: `docs/screens/` (add 2–3 key images: Home, Movies Explorer, Series Explorer)
 
 **Dashboard summary:**  
