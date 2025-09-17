@@ -7,8 +7,8 @@
 
 ## 🔗 Demo & Screens
 
-- **Power BI Report**: [![Open the interactive dashboard](docs/pbi-cover.png)](https://app.fabric.microsoft.com/view?r=eyJrIjoiNzk0M2M4ZDktYzJiNy00NGUwLWFlMjAtYzBjZDc1OWNmNTEwIiwidCI6ImNkZjI0MzE5LWQ3NDAtNDNkYS05MTU5LTkyOGQxNzVkMjFlZSJ9)  
-- **Screenshots**: `docs/screens/` (add 2–3 key images: Home, Movies Explorer, Series Explorer)
+- **Power BI Report**: (click on the below image to open the interactive dashboard) [![Open the interactive dashboard](docs/pbi-cover.png)](https://app.fabric.microsoft.com/view?r=eyJrIjoiNzk0M2M4ZDktYzJiNy00NGUwLWFlMjAtYzBjZDc1OWNmNTEwIiwidCI6ImNkZjI0MzE5LWQ3NDAtNDNkYS05MTU5LTkyOGQxNzVkMjFlZSJ9)  
+
 
 **Dashboard summary:**  
 A dark, Netflix‑themed report for **Movies & TV Series** with:
